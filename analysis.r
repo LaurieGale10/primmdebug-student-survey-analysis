@@ -1,37 +1,40 @@
 library(ltm)
 
-internal_consistency <- function(columns) {
+internal_consistency <- function(survey_responses, columns) {
     #'Calculates the internal consistency of a set of columns in a dataframe
     #' @param columns A vector of column names to calculate the internal consistency of
-    return(cronbach.alpha(survey_response_data[, columns], na.rm = TRUE))
+    return(cronbach.alpha(survey_responses[, columns], na.rm = TRUE))
 }
 
-quantify_distribution <- function(column) {
+quantify_distribution <- function(survey_responses, column) {
     library(e1071)
     library(nortest)
 
-    quantify_distribution <- function(column) {
-        #'Calculates and returns the skewness, kurtosis, and normality of the distribution of a column in a dataframe
-        #' @param column The name of the column to analyze
-        data <- survey_response_data[, column]
-        skewness_value <- skewness(data, na.rm = TRUE)
-        kurtosis_value <- kurtosis(data, na.rm = TRUE)
-        normality_test <- ad.test(data) #TODO: Check out which test to use here.
-        return(list(
-            skewness = skewness_value,
-            kurtosis = kurtosis_value,
-            normality_p_value = normality_test$p.value
-        ))
-    }
+    #'Calculates and returns the skewness, kurtosis, and normality of the distribution of a column in a dataframe
+    #' @param column The name of the column to analyze
+    data <- survey_responses[, column]
+    skewness_value <- skewness(data, na.rm = TRUE)
+    kurtosis_value <- kurtosis(data, na.rm = TRUE)
+    normality_test <- ad.test(data) #TODO: Check out which test to use here.
+    return(list(
+        skewness = skewness_value,
+        kurtosis = kurtosis_value,
+        normality_p_value = normality_test$p.value
+    ))
 }
 
-visualise_distribution <- function(column) {
+visualise_distribution <- function(survey_responses, column, title) {
     #'Visualises the distribution of a column in a dataframe
     #' @param column The name of the column to visualise
     if (length(column) > 1) {
         stop("The column parameter should be a single column name.")
     }
-    hist(survey_response_data[, column], main = column) #TODO: Should this be a bar chart? In order to get other distribution stats I'll need to read up on them (skewness/kurtoisis/normality)
+    if (missing(title)) {
+        hist(survey_responses[, column], main=paste("Histogram of", column), xlab=column) #TODO: Should this be a bar chart? Also get names for questions here
+    }
+    else {
+        hist(survey_responses[, column], main=title, xlab=column) #TODO: Should this be a bar chart? Also get names for questions here
+    }
 }
 
 spearman_correlation <-function(columns1, columns2 = NULL) {
@@ -52,22 +55,15 @@ visualise_correlation <- function(correlation_matrix) {
     corrplot(correlation_matrix, method="color")
 }
 
-#Load data into dataframe
-survey_response_data <- read.table("pilot_survey_responses.csv", header=TRUE, sep=",")
 
-#Creates vectors containing columns names for the whole dataset and each variable
-all_quant_responses <- names(survey_response_data)[sapply(survey_response_data, is.numeric)]
-primmdebug_usability_questions <- c("Q1_1","Q1_2","Q1_3","Q1_4","Q1_5")
-primmdebug_utility_questions <- c("Q2_1","Q2_2","Q2_3","Q2_4","Q2_5","Q2_6")
-sifft_utility_questions <- c("Pilot3","Q4","Q5")
+"Cluster analysis of participants"
 
-"Check internal consistency of data"
-internal_consistency(all_quant_responses)
-internal_consistency(primmdebug_usability_questions)
-internal_consistency(primmdebug_utility_questions)
-internal_consistency(sifft_utility_questions)
+"Work out summary stats for data, including:
+ -Median/modal response for each question
+ -Visualisation of distributions
+ -Skewness and kurtosis of each question (or closeness to normal distribution)
+ -Segregate for different demographic groups (school, year group, gender)"
 
-visualise_correlation(spearman_correlation(all_quant_responses))
 
 "Functions to write
 
