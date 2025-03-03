@@ -1,6 +1,6 @@
 gender_counts <- data.frame(
     gender = c("Female", "Male", "Non-binary", "Other", "Prefer not to say"),
-    count = c(0, 0, 0, 0, 0)
+    count = c(8, 36, 0, 0, 2)
 )
 
 get_gender_counts <- function() {
@@ -14,7 +14,7 @@ get_total_student_count <- function() {
 
 year_group_split <- data.frame(
     year_group = c("Year 7", "Year 8", "Year 9", "Year 10", "Year 11"),
-    count = c(0, 0, 0, 0, 0)
+    count = c(9, 0, 0, 31, 6)
 )
 
 get_year_group_split <- function() {
