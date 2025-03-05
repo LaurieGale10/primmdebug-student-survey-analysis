@@ -1,9 +1,8 @@
-library(ltm)
 
 internal_consistency <- function(survey_responses, columns) {
     #'Calculates the internal consistency of a set of columns in a dataframe
     #' @param columns A vector of column names to calculate the internal consistency of
-    return(cronbach.alpha(survey_responses[, columns], na.rm = TRUE))
+    return(cronbach.alpha(survey_responses[, columns], na.rm = TRUE)$alpha)
 }
 
 quantify_distribution <- function(survey_responses, column) {
