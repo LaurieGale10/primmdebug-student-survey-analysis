@@ -22,7 +22,6 @@ quantify_distribution <- function(survey_responses, column) {
     ))
 }
 
-
 spearman_correlation <-function(columns1, columns2 = NULL) {
     #'Calculates the Spearman correlation between two sets of columns
     #' @param columns1 A vector of column names to calculate the correlation of
@@ -32,6 +31,12 @@ spearman_correlation <-function(columns1, columns2 = NULL) {
         columns2 = columns1
     }
     return(matrix(cor(survey_response_data[, columns1], survey_response_data[, columns2], use="complete.obs", method="spearman"))) #Currently not printing out the right thing
+}
+
+correlation_matrix <- function(responses) {
+    #'Calculates the correlation matrix of a dataframe
+    #' @param responses A dataframe of survey responses
+    return(cor(responses, use="complete.obs", method="spearman"))
 }
 
 visualise_correlation <- function(correlation_matrix) {
