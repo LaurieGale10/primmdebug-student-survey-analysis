@@ -1,7 +1,10 @@
 
-internal_consistency <- function(survey_responses, columns) {
+internal_consistency <- function(survey_responses, columns = NULL) {
     #'Calculates the internal consistency of a set of columns in a dataframe
     #' @param columns A vector of column names to calculate the internal consistency of
+    if (is.null(columns)) {
+        return(cronbach.alpha(survey_responses, na.rm = TRUE)$alpha)
+    }
     return(cronbach.alpha(survey_responses[, columns], na.rm = TRUE)$alpha)
 }
 
