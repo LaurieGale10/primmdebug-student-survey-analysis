@@ -3,9 +3,9 @@ get_survey_data_labelled <- function() {
     return(survey_data_labelled)
 }
 
-# Creates and returns a dataframe represent the survey data with numerical values.
-# This had to be created due to a glitch in the way Qualtrics saved Likert scale values.
 get_survey_data_numerical <- function() {
+    #' Creates and returns a dataframe represent the survey data with numerical values.
+    #' This had to be created due to a glitch in the way Qualtrics saved Likert scale values.
     survey_data_labelled <- get_survey_data_labelled()
 
     agreement_likert <- c("Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree")
@@ -23,5 +23,3 @@ get_survey_data_numerical <- function() {
     write.csv(survey_data_numeric, "survey_responses/survey_responses_numeric.csv", row.names = FALSE)
     return(survey_data_numeric)
 }
-
-get_survey_data_numerical()
