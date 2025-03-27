@@ -42,9 +42,22 @@ correlation_matrix <- function(responses) {
     return(cor(responses, use="complete.obs", method="spearman"))
 }
 
+polychoric_correlation_matrix <- function(responses) {
+    library(EFA.dimensions)
+    #'Calculates the polychoric correlation matrix of a dataframe
+    #' @param responses A dataframe of survey responses
+    return(POLYCHORIC_R(responses))
+}
+
 visualise_correlation <- function(correlation_matrix) {
     library(corrplot)
     #'Visualises a correlation matrix
     #' @param correlation_matrix A matrix of correlation values
     corrplot(correlation_matrix, method="color")
+}
+
+filter_by_school <- function(data, school) {
+    source("filter_by_school.r")
+    student_ids <- get_student_ids_from_school(school)
+    return (data[data$student_id %in% student_ids, ])
 }
