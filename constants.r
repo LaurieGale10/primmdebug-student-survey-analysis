@@ -1,6 +1,6 @@
 gender_counts <- data.frame(
     gender = c("Female", "Male", "Non-binary", "Other", "Prefer not to say"),
-    count = c(8, 36, 0, 0, 2)
+    count = c(7, 37, 0, 0, 2)
 )
 
 get_gender_counts <- function() {
@@ -14,7 +14,7 @@ get_total_student_count <- function() {
 
 year_group_split <- data.frame(
     year_group = c("Year 7", "Year 8", "Year 9", "Year 10", "Year 11"),
-    count = c(9, 0, 0, 31, 6)
+    count = c(9, 1, 0, 30, 6)
 )
 
 get_year_group_split <- function() {
@@ -22,8 +22,8 @@ get_year_group_split <- function() {
 }
 
 school_split <- data.frame(
-    school = c("School A", "School B", "School C", "School D", "School E"),
-    count = c(0, 0, 0, 0, 0)
+    school = c("School 1", "School 2", "School 3", "School 4", "School 5", "Unknown"),
+    count = c(21, 0, 6, 0, 15, 3)
 )
 
 get_school_split <- function() {
@@ -35,7 +35,7 @@ question_labels <- c(
     Q1_1 = "I thought the website was easy to use.", 
     Q1_2 = "I found the website too complicated.", 
     Q1_3 = "I think most people would learn to use the website very quickly.", 
-    Q1_4 = "I needed to learn a lot of things before I could get going  with the website.", 
+    Q1_4 = "I needed to learn a lot of things before I could get going with the website.", 
     Q1_5 = "I felt very confident using the website.",
     Q2 = "How much do you agree or disagree with these sentences about the restrictive factors of PRIMMDebug?",
     Q2_1 = "Having to write out my thoughts before moving on to some of the stages.", 
