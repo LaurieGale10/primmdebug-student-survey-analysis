@@ -20,6 +20,6 @@ get_survey_data_numerical <- function() {
         across(Q4, ~as.numeric(factor(., levels = difficulty_likert, ordered = TRUE))),
         across(Q6, ~as.numeric(factor(., levels = regularity_likert, ordered = TRUE))))
         
-    write.csv(survey_data_numeric, "survey_responses/survey_responses_numeric.csv", row.names = FALSE)
+    write.csv(survey_data_numeric, "./survey_responses/survey_responses_numeric.csv", row.names = FALSE)
     return(survey_data_numeric)
 }
