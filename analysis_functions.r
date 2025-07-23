@@ -1,5 +1,5 @@
 
-internal_consistency <- function(survey_responses, columns = NULL) {
+cronbachs_alpha <- function(survey_responses, columns = NULL) {
     #'Calculates the internal consistency of a set of columns in a dataframe
     #' @param columns A vector of column names to calculate the internal consistency of
     if (is.null(columns)) {
@@ -56,8 +56,51 @@ visualise_correlation <- function(correlation_matrix) {
     corrplot(correlation_matrix, method="color")
 }
 
+calculate_sus_score_for_row <- function(survey_response) {
+    #'Calculates the System Usability Scale (SUS) score for a single response
+    #' @param survey_response A dataframe for a single survey response
+    #' @return The SUS score for a single response
+    odd_items <- survey_response[c("Q1_1", "Q1_3", "Q1_5")]
+    even_items <- survey_response[c("Q1_2", "Q1_4")]
+    sum_odd_items <- sum(odd_items, na.rm = TRUE) - 3
+    sum_even_items <- 10 - sum(even_items, na.rm = TRUE)
+    sus_score <- (sum_odd_items + sum_even_items) * 5
+    return(round(sus_score, 2))
+}
+
+calculate_mean_sus_score <- function(survey_responses) {
+    #'Calculates the mean System Usability Scale (SUS) score from a set of survey responses
+    #' @param survey_responses A dataframe of survey responses
+    #' @return The mean SUS score
+    sus_scores <- c()
+    for (i in 1:nrow(survey_responses)) {
+        sus_scores[i] <- calculate_sus_score_for_row(survey_responses[i, ])
+    }
+    return(mean(sus_scores, na.rm = TRUE))
+}
+
+calculate_median_sus_score <- function(survey_responses) {
+    #'Calculates the median System Usability Scale (SUS) score from a set of survey responses
+    #' @param survey_responses A dataframe of survey responses
+    #' @return The median SUS score
+    sus_scores <- c()
+    for (i in 1:nrow(survey_responses)) {
+        sus_scores[i] <- calculate_sus_score_for_row(survey_responses[i, ])
+    }
+    return(median(sus_scores, na.rm = TRUE))
+}
+
 filter_by_school <- function(data, school) {
     source("filter_by_school.r")
     student_ids <- get_student_ids_from_school(school)
     return (data[data$student_id %in% student_ids, ])
+}
+
+get_school_breakdown <- function(data) {
+    for (i in 1:5) {
+        n_respondents_from_school = filter_by_school(survey_response_data, paste("School", i)) %>%
+            nrow()
+        school_counts[i] <- n_respondents_from_school
+    }
+    school_counts[6] <- nrow(survey_response_data[survey_response_data$student_id == "", ])
 }
